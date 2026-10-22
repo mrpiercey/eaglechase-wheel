@@ -58,13 +58,13 @@
   #tv .channel{font-family:var(--mono);font-size:11px;color:#d9c7a8aa;letter-spacing:1px}
 
   /* Lever */
-  #leverWrap{flex:1;width:100%;position:relative;perspective:900px;min-height:220px;margin-top:48px}
-  #leverInner{position:absolute;left:50%;bottom:90px;transform:translateX(-50%);width:200px;height:calc(100% - 90px);max-height:380px}
+  #leverWrap{flex:1;width:100%;position:relative;perspective:900px;min-height:220px;margin-top:16px}
+  #leverInner{position:absolute;left:50%;bottom:90px;transform:translateX(-50%);width:200px;height:calc(100% - 90px);max-height:380px;container-type:size}
   #leverBase{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:150px;height:88px;
     background:linear-gradient(var(--green),#0d2a25);border:4px solid var(--tan);border-radius:14px 14px 6px 6px;box-shadow:0 10px 0 #061a16,0 16px 30px #0009}
   #leverBase::after{content:"";position:absolute;left:50%;top:14px;transform:translateX(-50%);width:34px;height:34px;border-radius:50%;
     background:radial-gradient(#111 30%,#333 70%);box-shadow:inset 0 0 0 4px #777}
-  #rod{position:absolute;bottom:56px;left:50%;width:22px;height:calc(100% - 130px);min-height:150px;margin-left:-11px;
+  #rod{position:absolute;bottom:56px;left:50%;width:22px;height:calc(100% - 170px);min-height:90px;margin-left:-11px;
     transform-origin:50% 100%;transform-style:preserve-3d;transform:rotateX(var(--a,0deg));
     background:linear-gradient(90deg,#9aa0b8,#e8ebf5 50%,#8a90a8);border-radius:11px;box-shadow:0 0 0 2px #0004;cursor:grab}
   #rod.snap{transition:transform .45s cubic-bezier(.25,1.7,.45,1)}
@@ -77,6 +77,8 @@
   #leverWrap.busy #leverHint{animation:none;opacity:.35}
   #leverWrap.busy #rod{cursor:not-allowed}
   @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-8px)}}
+  /* not enough height for both the hint and the knob: drop the hint, the label below still explains */
+  @container (max-height:260px){#leverHint{display:none}}
   #leverLabel{position:absolute;left:0;right:0;bottom:56px;text-align:center;font-family:var(--label);font-size:15px;letter-spacing:1px;color:var(--tan);text-transform:uppercase}
 
   #spinBtn{display:none}
