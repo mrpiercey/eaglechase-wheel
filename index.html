@@ -79,6 +79,8 @@
   @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-8px)}}
   #leverLabel{position:absolute;left:0;right:0;bottom:-2px;text-align:center;font-family:var(--label);font-size:15px;letter-spacing:1px;color:var(--tan);text-transform:uppercase}
 
+  #spinBtn{display:none}
+
   /* ---------- Pop-up: a big CRT TV ---------- */
   #overlay{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:rgba(18,54,48,.82);backdrop-filter:blur(3px)}
   #overlay.show{display:flex}
@@ -116,13 +118,15 @@
     #screen{height:134px;border-radius:50% / 18%}
     #qtext{font-size:16px;padding:8px 14px}
     #tv .panel{margin-top:6px}
-    #leverWrap{position:fixed;left:0;right:0;bottom:0;height:160px;min-height:0;background:#0d2a25;border-top:4px solid var(--gold);pointer-events:auto}
-    #leverInner{left:auto;right:14px;bottom:0;transform:none;width:170px;height:160px;max-height:none}
-    #rod{height:72px;min-height:0;bottom:46px}
-    #knob{width:56px;height:56px}
-    #leverBase{width:110px;height:62px}
-    #leverHint{display:none}
-    #leverLabel{left:16px;right:auto;bottom:auto;top:50%;transform:translateY(-50%);text-align:left;width:150px;font-size:18px;line-height:1.2}
+    #leverWrap{position:fixed;left:0;right:0;bottom:0;height:120px;min-height:0;margin:0;background:#0d2a25;border-top:4px solid var(--gold);pointer-events:auto;
+      display:flex;align-items:center;justify-content:center;padding:0 16px}
+    #leverInner,#leverLabel{display:none}
+    #spinBtn{display:block;width:100%;max-width:420px;height:76px;font-family:var(--display);font-size:clamp(20px,6vw,28px);letter-spacing:1px;
+      color:var(--green-deep);background:linear-gradient(#ffd98a,var(--gold));border:4px solid var(--tan);border-radius:999px;cursor:pointer;
+      box-shadow:0 8px 0 #8a6410,0 14px 24px #0008}
+    #spinBtn:active{transform:translateY(6px);box-shadow:0 2px 0 #8a6410}
+    #spinBtn:disabled{opacity:.5;transform:none;box-shadow:0 8px 0 #8a6410}
+    canvas#wheel,#scan{bottom:120px;height:calc(100% - 382px)}
     #bigtv{padding:12px 12px 10px;border-radius:18px}
     #bigtv .bezel{padding:10px}
     #rscreen{padding:22px 14px 18px}
@@ -159,6 +163,7 @@
       <div id="rod"><div id="knob"></div></div>
     </div>
     <div id="leverLabel">Drag the lever down or tap it (or press Space)</div>
+    <button id="spinBtn">SPIN THE WHEEL</button>
   </div>
 </aside>
 
@@ -328,7 +333,7 @@ const leverWrap = document.getElementById("leverWrap");
 function spin() {
   if (spinning) return;
   ensureAudio(); hideResult();
-  spinning = true; winner = -1; leverWrap.classList.add("busy");
+  spinning = true; winner = -1; leverWrap.classList.add("busy"); spinBtn.disabled = true;
   const yesIdx = [0, 2, 4, 6][Math.floor(Math.random() * 4)];
   const want = -yesIdx * SEG + (Math.random() - 0.5) * SEG * 0.5;       // YES panel in the window, a little off center
   const turns = 3 + Math.floor(Math.random() * 3);
@@ -345,7 +350,7 @@ function spin() {
   })(t0);
 }
 function land(idx) {
-  spinning = false; winner = idx; leverWrap.classList.remove("busy");
+  spinning = false; winner = idx; leverWrap.classList.remove("busy"); spinBtn.disabled = false;
   celebrateUntil = performance.now() + 4000; dingSound();
   setTimeout(showResult, 700);
 }
@@ -370,6 +375,8 @@ function releaseLever() {
   setAngle(0); if (fire) { clunkSound(); spin(); }
 }
 rod.addEventListener("pointerup", releaseLever); rod.addEventListener("pointercancel", releaseLever);
+const spinBtn = document.getElementById("spinBtn");
+spinBtn.onclick = () => { if (spinning) return; ensureAudio(); clunkSound(); spin(); };
 function pullLeverAuto() { if (spinning) return; ensureAudio(); rod.classList.add("snap"); setAngle(MAX_ANGLE); clunkSound(); setTimeout(() => { setAngle(0); spin(); }, 260); }
 document.addEventListener("keydown", e => {
   if (e.code === "Space" || e.code === "Enter") { e.preventDefault(); if (overlay.classList.contains("show")) { hideResult(); showQuestion(nextQuestion()); } pullLeverAuto(); }

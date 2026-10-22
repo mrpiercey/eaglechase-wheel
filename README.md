@@ -6,7 +6,7 @@ A rigged decision wheel for the Ashland Eagle Chase 5K. A CRT TV in the corner t
 
 The drum is drawn at low resolution and upscaled with pixelated scaling for a 16-bit look, with the Eagle Chase eagles as sprites on the YES panels.
 
-Open `index.html` in any browser. No build step, no dependencies. Works on phones too (the TV shrinks and the lever moves to the bottom).
+Open `index.html` in any browser. No build step, no dependencies. Works on phones too, where the lever becomes a big SPIN THE WHEEL button under the drum.
 
 Ten questions rotate in random order. Press **Space** to pull the lever, **Escape** to close the pop-up.
 
