@@ -84,7 +84,7 @@
   /* ---------- Pop-up: a big CRT TV ---------- */
   #overlay{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:rgba(18,54,48,.82);backdrop-filter:blur(3px)}
   #overlay.show{display:flex}
-  #bigtv{width:min(720px,92vw);background:linear-gradient(#5a4a36,#3a2f22);border-radius:28px;padding:22px 22px 16px;
+  #bigtv{width:min(720px,92vw);background:linear-gradient(#5a4a36,#3a2f22);border-radius:28px;padding:22px;
     box-shadow:0 24px 60px #000b,inset 0 2px 0 #fff2;transform:scale(.7);opacity:0;transition:transform .35s steps(5),opacity .2s steps(3)}
   #overlay.show #bigtv{transform:scale(1);opacity:1}
   #bigtv .bezel{background:#1a1a1a;border-radius:30px / 26px;padding:18px;box-shadow:inset 0 0 0 4px #000,inset 0 0 18px #000}
@@ -98,13 +98,6 @@
   #rscreen .rlink:hover{background:#fff}
   #rscreen .cur{display:inline-block;width:.6em;height:1em;background:#d9ffe9;vertical-align:-.1em;margin-left:6px;animation:blink .8s steps(2,end) infinite}
   #rscreen small{display:block;margin-top:20px;font-family:var(--mono);font-size:13px;opacity:.8}
-  #bigtv .panel{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding:0 8px}
-  #bigtv .brand{font-family:var(--label);font-size:18px;letter-spacing:3px;color:#d9c7a8;text-transform:uppercase}
-  #bigtv .brand img{height:26px;vertical-align:middle;margin-right:8px}
-  .tvbtn{font-family:var(--label);font-size:19px;letter-spacing:1px;text-transform:uppercase;color:#2a2117;background:linear-gradient(#e9dcc2,#c9b48c);
-    border:0;border-radius:8px;padding:10px 16px;cursor:pointer;box-shadow:0 4px 0 #6b5a40}
-  .tvbtn:active{transform:translateY(3px);box-shadow:0 1px 0 #6b5a40}
-  #bigtv .led{width:10px;height:10px;border-radius:50%;background:#ff4b3a;box-shadow:0 0 10px #ff4b3a}
 
   @media (max-width:820px){
     :root{--side-w:0px}
@@ -127,11 +120,9 @@
     #spinBtn:active{transform:translateY(6px);box-shadow:0 2px 0 #8a6410}
     #spinBtn:disabled{opacity:.5;transform:none;box-shadow:0 8px 0 #8a6410}
     canvas#wheel,#scan{bottom:120px;height:calc(100% - 382px)}
-    #bigtv{padding:12px 12px 10px;border-radius:18px}
+    #bigtv{padding:12px;border-radius:18px}
     #bigtv .bezel{padding:10px}
     #rscreen{padding:22px 14px 18px}
-    #bigtv .brand{font-size:14px}
-    .tvbtn{font-size:15px;padding:8px 10px}
   }
 </style>
 </head>
@@ -176,11 +167,6 @@
       <a class="rlink" href="https://eaglechase5k.com" target="_blank" rel="noopener">&#9654; eaglechase5k.com</a><span class="cur"></span>
       <small>Saturday, November 7 at 9:00 AM &middot; Ashland Elementary School &middot; Walkers welcome!</small>
     </div></div>
-    <div class="panel">
-      <span class="brand"><img src="eagles.png" alt="">Eagle-Vision</span>
-      <button class="tvbtn" id="againBtn">Ask another question</button>
-      <span class="led"></span>
-    </div>
   </div>
 </div>
 
@@ -358,8 +344,8 @@ const overlay = document.getElementById("overlay");
 const rscreen = document.getElementById("rscreen");
 function showResult() { overlay.classList.add("show"); rscreen.classList.remove("flicker"); void rscreen.offsetWidth; rscreen.classList.add("flicker"); }
 function hideResult() { overlay.classList.remove("show"); }
-document.getElementById("againBtn").onclick = () => { hideResult(); showQuestion(nextQuestion()); };
-overlay.addEventListener("click", e => { if (e.target === overlay) hideResult(); });
+function dismiss() { hideResult(); showQuestion(nextQuestion()); }
+overlay.addEventListener("click", e => { if (e.target === overlay) dismiss(); });
 
 /* ---------------- Lever ---------------- */
 const rod = document.getElementById("rod");
@@ -379,8 +365,8 @@ const spinBtn = document.getElementById("spinBtn");
 spinBtn.onclick = () => { if (spinning) return; ensureAudio(); clunkSound(); spin(); };
 function pullLeverAuto() { if (spinning) return; ensureAudio(); rod.classList.add("snap"); setAngle(MAX_ANGLE); clunkSound(); setTimeout(() => { setAngle(0); spin(); }, 260); }
 document.addEventListener("keydown", e => {
-  if (e.code === "Space" || e.code === "Enter") { e.preventDefault(); if (overlay.classList.contains("show")) { hideResult(); showQuestion(nextQuestion()); } pullLeverAuto(); }
-  if (e.code === "Escape") hideResult();
+  if (e.code === "Space" || e.code === "Enter") { e.preventDefault(); if (overlay.classList.contains("show")) dismiss(); pullLeverAuto(); }
+  if (e.code === "Escape" && overlay.classList.contains("show")) dismiss();
 });
 
 showQuestion(nextQuestion());

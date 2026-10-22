@@ -8,6 +8,6 @@ The drum is drawn at low resolution and upscaled with pixelated scaling for a 16
 
 Open `index.html` in any browser. No build step, no dependencies. Works on phones too, where the lever becomes a big SPIN THE WHEEL button under the drum.
 
-Ten questions rotate in random order. Press **Space** to pull the lever, **Escape** to close the pop-up.
+Ten questions rotate in random order. Press **Space** to pull the lever. Click anywhere off the TV pop-up (or press Escape) to load the next question and spin again.
 
 Colors, lettering, and the eagle logo match the [Eagle Chase typing game](https://github.com/mrpiercey/eaglechasegame). Sounds are generated with the Web Audio API.
