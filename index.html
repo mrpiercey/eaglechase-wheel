@@ -182,16 +182,16 @@
 <script>
 /* ---------------- Questions ---------------- */
 const QUESTIONS = [
-  "Should I register for the Ashland Eagle Chase 5K at eaglechase5k.com?",
-  "Would it be fun to run (or walk!) a 5K with my friends and neighbors on Saturday, November 7?",
-  "Is supporting Ashland Elementary students a great reason to lace up my shoes?",
-  "Should I invite my whole family to the Eagle Chase 5K?",
-  "Is 9:00 AM on November 7 the perfect time for a race?",
-  "Would I look awesome crossing the finish line at the Eagle Chase 5K?",
-  "Should I sign up today instead of waiting until the last minute?",
-  "Are walkers, strollers, and first-timers welcome at the Eagle Chase 5K?",
-  "Will I feel like a champion when I finish the Eagle Chase 5K?",
-  "Should I tell a friend to register at eaglechase5k.com too?",
+  "Should I register for the Eagle Chase 5K?",
+  "Should I sign up for the Eagle Chase 5K at eaglechase5k.com?",
+  "Should I run the Eagle Chase 5K on Saturday, November 7?",
+  "Should I support Ashland Elementary students by running the Eagle Chase 5K?",
+  "Should I invite my family to the Eagle Chase 5K?",
+  "Should I ask a friend to run the Eagle Chase 5K with me?",
+  "Should I register for the Eagle Chase 5K today?",
+  "Should I walk the Eagle Chase 5K if I don't want to run?",
+  "Should I be at Ashland Elementary at 9:00 AM on November 7 for the Eagle Chase 5K?",
+  "Should I tell my neighbors about the Eagle Chase 5K?",
 ];
 let queue = [];
 function nextQuestion() {
@@ -236,8 +236,8 @@ window.addEventListener("resize", resize); resize();
 function norm(a) { a = (a + Math.PI) % (Math.PI * 2); if (a < 0) a += Math.PI * 2; return a - Math.PI; }
 function project(a) { const z = R * (1 - Math.cos(a)); const f = D / (D + z); return { y: cy + R * Math.sin(a) * f, f }; }
 function frontIndex() { return ((Math.round(-rot / SEG) % N) + N) % N; }
-function panelColor(i) { return isYes(i) ? (i % 4 === 0 ? "#D6AB3C" : "#1B4A42") : (i % 4 === 1 ? "#C5312A" : "#F4F1E8"); }
-function panelDark(i) { return isYes(i) ? i % 4 === 0 : i % 4 === 3; }   // gold and cream panels take dark text
+function panelColor(i) { return isYes(i) ? "#D6AB3C" : "#C5312A"; }   // YES gold, NO red
+function panelDark(i) { return isYes(i); }                                 // gold panels take dark green text
 
 function draw(now) {
   ctx.clearRect(0, 0, W, H);
@@ -288,8 +288,8 @@ function draw(now) {
   for (const dir of [1, -1]) {
     const bx = dir === 1 ? cx - Wd / 2 - postW - 4 - k : cx + Wd / 2 + postW + 4 + k;
     ctx.beginPath(); ctx.moveTo(bx, cy - ah); ctx.lineTo(bx, cy + ah); ctx.lineTo(bx + dir * aw, cy); ctx.closePath();
-    ctx.fillStyle = "#C5312A"; ctx.fill();
-    ctx.lineWidth = 2; ctx.strokeStyle = "#fff"; ctx.stroke();
+    ctx.fillStyle = "#F4F1E8"; ctx.fill();
+    ctx.lineWidth = 2; ctx.strokeStyle = "#0d2a25"; ctx.stroke();
   }
 }
 (function loop(now) { draw(now); requestAnimationFrame(loop); })(0);
