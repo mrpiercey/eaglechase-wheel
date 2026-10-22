@@ -49,10 +49,6 @@
   #qtext .cur{display:inline-block;width:.6em;height:1.1em;background:#d9ffe9;vertical-align:-.15em;margin-left:2px;animation:blink .8s steps(2,end) infinite}
   .crt.flicker{animation:flick .25s steps(3)}
   @keyframes flick{0%{filter:brightness(2.2)}100%{filter:none}}
-  /* TV starts off until the first tap, so the browser lets the sounds play */
-  .crt.off{background:radial-gradient(ellipse at 50% 40%,#1c2422 0%,#0c100f 70%,#050707 100%)}
-  .crt.poweron #qtext{animation:poweron .5s ease-out}
-  @keyframes poweron{0%{transform:scale(1,.004);filter:brightness(4)}45%{transform:scale(1,.004);filter:brightness(4)}100%{transform:none;filter:none}}
   @keyframes blink{0%{opacity:1}50%{opacity:0}}
   #tv .panel{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding:0 6px}
   #tv .knob{width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d9c7a8,#6b5a40 70%);box-shadow:0 2px 0 #000}
@@ -221,8 +217,14 @@ function nextQuestion() {
 /* ---------------- CRT typewriter ---------------- */
 const qtext = document.getElementById("qtext"), screen = document.getElementById("screen");
 let typing = null;
+// The lever stays locked until the question has finished typing.
+function lockLever(on) {
+  document.getElementById("leverWrap").classList.toggle("busy", on);
+  document.getElementById("spinBtn").disabled = on;
+}
 function showQuestion(q) {
   if (typing) clearInterval(typing);
+  lockLever(true);
   screen.classList.remove("flicker"); void screen.offsetWidth; screen.classList.add("flicker");
   qtext.innerHTML = ""; const span = document.createElement("span"); const cur = document.createElement("span"); cur.className = "cur";
   qtext.append(span, cur);
@@ -230,7 +232,7 @@ function showQuestion(q) {
   typing = setInterval(() => {
     span.textContent = q.slice(0, ++i);
     if (q[i - 1] !== " ") keySound();
-    if (i >= q.length) { clearInterval(typing); typing = null; }
+    if (i >= q.length) { clearInterval(typing); typing = null; lockLever(false); }
   }, 38);
 }
 
@@ -336,16 +338,6 @@ function beep(type, f, t, dur, vol, slide) {
 const tickSound = () => { if (actx) beep("square", 1400, actx.currentTime, 0.05, 0.16, 900); };
 const clunkSound = () => { if (actx) beep("square", 160, actx.currentTime, 0.12, 0.2, 60); };
 const keySound = () => { if (actx) beep("square", 2200, actx.currentTime, 0.015, 0.03); };
-function powerOnSound() {
-  if (!actx) return; const t = actx.currentTime, n = Math.floor(actx.sampleRate * 0.6);
-  const buf = actx.createBuffer(1, n, actx.sampleRate), d = buf.getChannelData(0);
-  for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, 3);
-  const src = actx.createBufferSource(), f = actx.createBiquadFilter(), g = actx.createGain();
-  src.buffer = buf; f.type = "bandpass"; f.frequency.value = 3000; g.gain.value = 0.18;
-  src.connect(f).connect(g).connect(actx.destination); src.start(t);
-  beep("square", 90, t, 0.18, 0.18, 40);
-  beep("sine", 60, t + 0.05, 0.7, 0.08);
-}
 function dingSound() {
   if (!actx) return; const t = actx.currentTime;
   [[1760, 1, 1.6], [2637, .45, 1.1], [3520, .25, .7], [880, .3, 1.8]].forEach(([f, v, d]) => beep("sine", f, t, d, 0.35 * v));
@@ -355,7 +347,7 @@ function dingSound() {
 /* ---------------- Spin (always lands on YES) ---------------- */
 const leverWrap = document.getElementById("leverWrap");
 function spin() {
-  if (spinning) return;
+  if (spinning || typing) return;
   ensureAudio(); hideResult();
   spinning = true; winner = -1; leverWrap.classList.add("busy"); spinBtn.disabled = true;
   const yesIdx = [0, 2, 4, 6][Math.floor(Math.random() * 4)];
@@ -390,36 +382,24 @@ const rod = document.getElementById("rod");
 const MAX_ANGLE = 105; const maxDrag = () => Math.max(60, rod.offsetHeight * 0.66);
 let dragging = false, startY = 0, angle = 0, pulledEnough = false;
 function setAngle(a) { angle = Math.max(0, Math.min(MAX_ANGLE, a)); rod.style.setProperty("--a", angle + "deg"); }
-rod.addEventListener("pointerdown", e => { if (spinning) return; ensureAudio(); dragging = true; pulledEnough = false; startY = e.clientY; rod.classList.remove("snap"); rod.setPointerCapture(e.pointerId); });
+rod.addEventListener("pointerdown", e => { if (spinning || typing) return; ensureAudio(); dragging = true; pulledEnough = false; startY = e.clientY; rod.classList.remove("snap"); rod.setPointerCapture(e.pointerId); });
 rod.addEventListener("pointermove", e => { if (!dragging) return; setAngle(((e.clientY - startY) / maxDrag()) * MAX_ANGLE); if (angle >= MAX_ANGLE * 0.6) pulledEnough = true; });
 function releaseLever() {
   if (!dragging) return; dragging = false; rod.classList.add("snap");
   const fire = pulledEnough || angle >= MAX_ANGLE * 0.6;
   if (!fire && angle < 12) { pullLeverAuto(); return; }
-  setAngle(0); if (fire) { clunkSound(); pull(); }
+  setAngle(0); if (fire) { clunkSound(); spin(); }
 }
 rod.addEventListener("pointerup", releaseLever); rod.addEventListener("pointercancel", releaseLever);
 const spinBtn = document.getElementById("spinBtn");
-spinBtn.onclick = () => { if (spinning) return; ensureAudio(); clunkSound(); pull(); };
-function pullLeverAuto() { if (spinning) return; ensureAudio(); rod.classList.add("snap"); setAngle(MAX_ANGLE); clunkSound(); setTimeout(() => { setAngle(0); pull(); }, 260); }
+spinBtn.onclick = () => { if (spinning || typing) return; ensureAudio(); clunkSound(); spin(); };
+function pullLeverAuto() { if (spinning || typing) return; ensureAudio(); rod.classList.add("snap"); setAngle(MAX_ANGLE); clunkSound(); setTimeout(() => { setAngle(0); spin(); }, 260); }
 document.addEventListener("keydown", e => {
   if (e.code === "Space" || e.code === "Enter") { e.preventDefault(); if (overlay.classList.contains("show")) dismiss(); pullLeverAuto(); }
   if (e.code === "Escape" && overlay.classList.contains("show")) dismiss();
 });
 
-/* ---------------- Power on ---------------- */
-// The TV starts off; the first pull turns it on (browsers only allow sound after a tap), later pulls spin.
-const leverHint = document.getElementById("leverHint"), hintOn = leverHint.innerHTML;
-let tvOn = false;
-screen.classList.add("off");
-leverHint.innerHTML = "Pull to turn<br>on the TV"; spinBtn.textContent = "TURN ON THE TV";
-function pull() { if (tvOn) spin(); else powerOn(); }
-function powerOn() {
-  tvOn = true; ensureAudio(); powerOnSound();
-  leverHint.innerHTML = hintOn; spinBtn.textContent = "SPIN THE WHEEL";
-  screen.classList.remove("off"); screen.classList.add("poweron");
-  setTimeout(() => { screen.classList.remove("poweron"); showQuestion(nextQuestion()); }, 500);
-}
+showQuestion(nextQuestion());
 </script>
 </body>
 </html>
