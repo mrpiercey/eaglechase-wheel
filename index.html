@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Should I Run the Eagle Chase 5K?</title>
+<title>Eagle Chase Wheel</title>
 <link rel="icon" href="eagles.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=League+Gothic&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -13,7 +13,7 @@
     --muted:#4D635E; --line:#C7D3CF; --ink:#1B4A42;
     --display:"Archivo Black","Arial Black",Impact,sans-serif; --label:"League Gothic","Arial Narrow",Impact,sans-serif;
     --body:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace; --pixel:"Press Start 2P",monospace;
-    --side-w:380px;
+    --side-w:480px;
   }
   *{box-sizing:border-box}
   html,body{margin:0;height:100%;overflow:hidden;background:var(--green-deep);color:var(--paper);font-family:var(--body);
@@ -22,7 +22,7 @@
   #head{position:fixed;left:0;top:0;right:0;height:72px;z-index:5;display:flex;align-items:center;gap:16px;padding:0 24px;
     background:var(--green);border-bottom:4px solid var(--gold)}
   #head img{height:46px}
-  #head h1{margin:0;font-family:var(--display);font-size:clamp(16px,2.2vw,28px);letter-spacing:.5px;color:var(--paper)}
+  #head h1{margin:0;font-family:var(--display);font-size:clamp(18px,2.6vw,34px);letter-spacing:1px;color:var(--paper)}
   #head h1 span{color:var(--gold)}
   #head p{margin:0;font-family:var(--label);font-size:clamp(16px,1.6vw,22px);letter-spacing:1px;color:var(--tan);text-transform:uppercase}
 
@@ -36,16 +36,16 @@
     background:#0d2a25;border-left:4px solid var(--gold);padding:18px 16px 0}
 
   /* CRT TV */
-  #tv{width:100%;max-width:340px;background:linear-gradient(#5a4a36,#3a2f22);border-radius:22px;padding:16px 16px 12px;
+  #tv{width:100%;max-width:450px;background:linear-gradient(#5a4a36,#3a2f22);border-radius:22px;padding:16px 16px 12px;
     box-shadow:0 14px 30px #0008,inset 0 2px 0 #fff2;position:relative}
   #tv .bezel{background:#1a1a1a;border-radius:26px / 22px;padding:14px;box-shadow:inset 0 0 0 4px #000,inset 0 0 18px #000}
   .crt{position:relative;border-radius:50% / 12%;background:radial-gradient(ellipse at 50% 40%,#2c6b5e 0%,#163f38 55%,#0b2520 100%);
     overflow:hidden;box-shadow:inset 0 0 40px #000c,inset 0 0 6px #7fffd466}
   .crt::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 2px,#0005 2px 3px);pointer-events:none;z-index:2}
   .crt::after{content:"";position:absolute;left:8%;top:4%;width:60%;height:34%;border-radius:50%;background:radial-gradient(#ffffff26,transparent 70%);pointer-events:none;z-index:3}
-  #screen{height:190px}
+  #screen{height:270px}
   #qtext{position:absolute;inset:0;padding:18px 22px;display:flex;align-items:center;justify-content:center;text-align:center;
-    font-family:var(--mono);font-weight:700;font-size:clamp(15px,1.25vw,19px);line-height:1.35;color:#d9ffe9;text-shadow:0 0 6px #7fffd4aa,0 0 1px #fff}
+    font-family:var(--mono);font-weight:700;font-size:clamp(17px,1.65vw,26px);line-height:1.35;color:#d9ffe9;text-shadow:0 0 6px #7fffd4aa,0 0 1px #fff}
   #qtext .cur{display:inline-block;width:.6em;height:1.1em;background:#d9ffe9;vertical-align:-.15em;margin-left:2px;animation:blink .8s steps(2,end) infinite}
   .crt.flicker{animation:flick .25s steps(3)}
   @keyframes flick{0%{filter:brightness(2.2)}100%{filter:none}}
@@ -58,7 +58,7 @@
   #tv .channel{font-family:var(--mono);font-size:11px;color:#d9c7a8aa;letter-spacing:1px}
 
   /* Lever */
-  #leverWrap{flex:1;width:100%;position:relative;perspective:900px;min-height:260px}
+  #leverWrap{flex:1;width:100%;position:relative;perspective:900px;min-height:220px;margin-top:34px}
   #leverInner{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);width:200px;height:calc(100% - 30px);max-height:420px}
   #leverBase{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:150px;height:88px;
     background:linear-gradient(var(--green),#0d2a25);border:4px solid var(--tan);border-radius:14px 14px 6px 6px;box-shadow:0 10px 0 #061a16,0 16px 30px #0009}
@@ -109,12 +109,12 @@
     #head{height:60px;padding:0 14px}
     #head img{height:36px}
     #head p{display:none}
-    canvas#wheel,#scan{top:232px;bottom:160px;height:calc(100% - 392px);width:100%}
+    canvas#wheel,#scan{top:262px;bottom:160px;height:calc(100% - 422px);width:100%}
     #side{top:60px;left:0;right:0;width:auto;bottom:auto;height:auto;border-left:0;padding:8px 10px 0;background:transparent;pointer-events:none}
     #tv{max-width:none;width:100%;padding:10px 12px 8px;border-radius:16px;pointer-events:auto}
     #tv .bezel{padding:8px;border-radius:18px}
-    #screen{height:104px;border-radius:50% / 18%}
-    #qtext{font-size:14px;padding:8px 14px}
+    #screen{height:134px;border-radius:50% / 18%}
+    #qtext{font-size:16px;padding:8px 14px}
     #tv .panel{margin-top:6px}
     #leverWrap{position:fixed;left:0;right:0;bottom:0;height:160px;min-height:0;background:#0d2a25;border-top:4px solid var(--gold);pointer-events:auto}
     #leverInner{left:auto;right:14px;bottom:0;transform:none;width:170px;height:160px;max-height:none}
@@ -135,7 +135,7 @@
 <header id="head">
   <img src="eagles.png" alt="Ashland Eagles">
   <div>
-    <h1>Should I run the <span>Eagle Chase 5K</span>?</h1>
+    <h1>EAGLE CHASE <span>WHEEL</span></h1>
     <p>Pull the lever and let the big wheel decide</p>
   </div>
 </header>
@@ -264,6 +264,16 @@ function draw(now) {
     const txt = isYes(i) ? "YES" : "NO";
     ctx.fillStyle = "rgba(0,0,0,.35)"; ctx.fillText(txt, 2, 2);
     ctx.fillStyle = panelDark(i) ? "#123630" : "#ffffff"; ctx.fillText(txt, 0, 0);
+    if (isYes(i) && eagle.complete && eagle.naturalWidth) {               // eagles beside YES, both facing the word
+      const tw = ctx.measureText(txt).width, pad = panelH * 0.15;
+      const gap = Wd / 2 - tw / 2 - pad * 2;
+      const w = Math.min(panelH * 0.62, gap), h = w * (eagle.naturalHeight / eagle.naturalWidth);
+      if (w > panelH * 0.3) {
+        const x = tw / 2 + pad + (gap - w) / 2;
+        ctx.drawImage(eagle, -x - w, -h / 2, w, h);                        // left eagle flies right, toward the word
+        ctx.save(); ctx.scale(-1, 1); ctx.drawImage(eagle, -x - w, -h / 2, w, h); ctx.restore();   // right eagle mirrored, flies left
+      }
+    }
     ctx.restore();
   }
   // housing posts
@@ -292,6 +302,7 @@ function draw(now) {
     ctx.lineWidth = 2; ctx.strokeStyle = "#0d2a25"; ctx.stroke();
   }
 }
+const eagle = new Image(); eagle.src = "eagles.png";
 (function loop(now) { draw(now); requestAnimationFrame(loop); })(0);
 
 /* ---------------- Audio ---------------- */
