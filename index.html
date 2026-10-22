@@ -52,6 +52,8 @@
   /* TV starts off until the first tap, so the browser lets the sounds play */
   .crt.off{background:radial-gradient(ellipse at 50% 40%,#1c2422 0%,#0c100f 70%,#050707 100%)}
   .crt.off #qtext{color:#9fbfb0;text-shadow:none;font-size:clamp(15px,1.3vw,20px);letter-spacing:2px;animation:blink 1.2s steps(2,end) infinite}
+  .crt.off #qtext span{text-wrap:balance}
+  .msg-btn{display:none}
   .crt.poweron #qtext{animation:poweron .5s ease-out}
   @keyframes poweron{0%{transform:scale(1,.004);filter:brightness(4)}45%{transform:scale(1,.004);filter:brightness(4)}100%{transform:none;filter:none}}
   @keyframes blink{0%{opacity:1}50%{opacity:0}}
@@ -120,7 +122,7 @@
     #tv .panel{margin-top:6px}
     #leverWrap{position:fixed;left:0;right:0;bottom:0;height:120px;min-height:0;margin:0;background:#0d2a25;border-top:4px solid var(--gold);pointer-events:auto;
       display:flex;align-items:center;justify-content:center;padding:0 16px}
-    #leverInner,#leverLabel{display:none}
+    #leverInner,#leverLabel,.msg-lever{display:none} .msg-btn{display:inline}
     #spinBtn{display:block;width:100%;max-width:420px;height:76px;font-family:var(--display);font-size:clamp(20px,6vw,28px);letter-spacing:1px;
       color:var(--green-deep);background:linear-gradient(#ffd98a,var(--gold));border:4px solid var(--tan);border-radius:999px;cursor:pointer;
       box-shadow:0 8px 0 #8a6410,0 14px 24px #0008}
@@ -141,7 +143,7 @@
     #side{padding-top:12px}
     #screen{height:calc(100vh - 56px - 230px);min-height:120px}
     #leverWrap{flex:none;min-height:0;margin:18px 0 0;display:flex;justify-content:center}
-    #leverInner,#leverLabel{display:none}
+    #leverInner,#leverLabel,.msg-lever{display:none} .msg-btn{display:inline}
     #spinBtn{display:block;width:100%;max-width:400px;height:76px;font-family:var(--display);font-size:24px;letter-spacing:1px;
       color:var(--green-deep);background:linear-gradient(#ffd98a,var(--gold));border:4px solid var(--tan);border-radius:999px;cursor:pointer;
       box-shadow:0 8px 0 #8a6410,0 14px 24px #0008}
@@ -412,7 +414,7 @@ document.addEventListener("keydown", e => {
 // The TV starts off; the first pull turns it on (browsers only allow sound after a tap), later pulls spin.
 const leverHint = document.getElementById("leverHint"), hintOn = leverHint.innerHTML;
 let tvOn = false;
-screen.classList.add("off"); qtext.textContent = "PULL THE LEVER TO TURN ON";
+screen.classList.add("off"); qtext.innerHTML = "<span class=\"msg-lever\">PULL THE LEVER TO TURN ON</span><span class=\"msg-btn\">PRESS THE BUTTON TO TURN ON</span>";
 leverHint.innerHTML = "Pull to turn<br>on the TV"; spinBtn.textContent = "TURN ON THE TV";
 function pull() { if (tvOn) spin(); else powerOn(); }
 function powerOn() {
