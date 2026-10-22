@@ -1,4 +1,4 @@
-# Should I Run the Eagle Chase 5K?
+# The Ashland Eagle Chase 5K Wheel-O-Registration
 
 Live site: https://wheel.eaglechase5k.com (also https://mrpiercey.github.io/eaglechase-wheel/)
 

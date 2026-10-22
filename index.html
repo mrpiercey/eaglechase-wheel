@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Eagle Chase Wheel</title>
+<title>The Ashland Eagle Chase 5K Wheel-O-Registration</title>
 <link rel="icon" href="eagles.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=League+Gothic&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -22,7 +22,7 @@
   #head{position:fixed;left:0;top:0;right:0;height:72px;z-index:5;display:flex;align-items:center;gap:16px;padding:0 24px;
     background:var(--green);border-bottom:4px solid var(--gold)}
   #head img{height:46px;background:var(--cream);padding:5px 10px;border-radius:10px;box-shadow:0 3px 0 #0b2520}
-  #head h1{margin:0;font-family:var(--display);font-size:clamp(18px,2.6vw,34px);letter-spacing:1px;color:var(--paper)}
+  #head h1{margin:0;font-family:var(--display);font-size:clamp(15px,1.9vw,27px);letter-spacing:.5px;color:var(--paper);line-height:1.15}
   #head h1 span{color:var(--gold)}
   #head p{margin:0;font-family:var(--label);font-size:clamp(16px,1.6vw,22px);letter-spacing:1px;color:var(--tan);text-transform:uppercase}
 
@@ -58,8 +58,8 @@
   #tv .channel{font-family:var(--mono);font-size:11px;color:#d9c7a8aa;letter-spacing:1px}
 
   /* Lever */
-  #leverWrap{flex:1;width:100%;position:relative;perspective:900px;min-height:220px;margin-top:34px}
-  #leverInner{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);width:200px;height:calc(100% - 30px);max-height:420px}
+  #leverWrap{flex:1;width:100%;position:relative;perspective:900px;min-height:220px;margin-top:48px}
+  #leverInner{position:absolute;left:50%;bottom:90px;transform:translateX(-50%);width:200px;height:calc(100% - 90px);max-height:380px}
   #leverBase{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:150px;height:88px;
     background:linear-gradient(var(--green),#0d2a25);border:4px solid var(--tan);border-radius:14px 14px 6px 6px;box-shadow:0 10px 0 #061a16,0 16px 30px #0009}
   #leverBase::after{content:"";position:absolute;left:50%;top:14px;transform:translateX(-50%);width:34px;height:34px;border-radius:50%;
@@ -72,12 +72,12 @@
     transform:translate(-50%,-50%) rotateX(calc(-1 * var(--a,0deg)));
     background:radial-gradient(circle at 32% 30%,#ffd98a,var(--gold) 45%,#8a6410 100%);box-shadow:0 8px 20px #0008,inset 0 -6px 12px #0005}
   #rod.snap #knob{transition:transform .45s cubic-bezier(.25,1.7,.45,1)}
-  #leverHint{position:absolute;top:-4px;left:50%;transform:translateX(-50%);font-family:var(--display);font-size:22px;color:var(--gold);
-    text-shadow:0 2px 0 #000;letter-spacing:2px;animation:bob 1.2s ease-in-out infinite;white-space:nowrap}
+  #leverHint{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-family:var(--label);font-size:26px;color:var(--gold);
+    text-shadow:0 2px 0 #000;letter-spacing:2px;text-transform:uppercase;animation:bob 1.2s ease-in-out infinite;white-space:nowrap;text-align:center;line-height:1.05}
   #leverWrap.busy #leverHint{animation:none;opacity:.35}
   #leverWrap.busy #rod{cursor:not-allowed}
   @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-8px)}}
-  #leverLabel{position:absolute;left:0;right:0;bottom:-2px;text-align:center;font-family:var(--label);font-size:15px;letter-spacing:1px;color:var(--tan);text-transform:uppercase}
+  #leverLabel{position:absolute;left:0;right:0;bottom:56px;text-align:center;font-family:var(--label);font-size:15px;letter-spacing:1px;color:var(--tan);text-transform:uppercase}
 
   #spinBtn{display:none}
 
@@ -101,8 +101,9 @@
 
   @media (max-width:820px){
     :root{--side-w:0px}
-    #head{height:60px;padding:0 14px}
-    #head img{height:36px}
+    #head{height:60px;padding:0 10px;gap:10px}
+    #head img{height:30px;padding:4px 6px}
+    #head h1{font-size:12px}
     #head p{display:none}
     canvas#wheel,#scan{top:262px;bottom:160px;height:calc(100% - 422px);width:100%}
     #side{top:60px;left:0;right:0;width:auto;bottom:auto;height:auto;border-left:0;padding:8px 10px 0;background:transparent;pointer-events:none}
@@ -130,7 +131,7 @@
 <header id="head">
   <img src="eagles.png" alt="Ashland Eagles">
   <div>
-    <h1>EAGLE CHASE <span>WHEEL</span></h1>
+    <h1>THE ASHLAND EAGLE CHASE 5K <span>WHEEL-O-REGISTRATION</span></h1>
     <p>Pull the lever and let the big wheel decide</p>
   </div>
 </header>
@@ -149,7 +150,7 @@
   </div>
   <div id="leverWrap">
     <div id="leverInner">
-      <div id="leverHint">PULL!</div>
+      <div id="leverHint">Pull to answer<br>the question</div>
       <div id="leverBase"></div>
       <div id="rod"><div id="knob"></div></div>
     </div>
