@@ -1,6 +1,6 @@
 # Should I Run the Eagle Chase 5K?
 
-Live site: https://mrpiercey.github.io/eaglechase-wheel/
+Live site: https://wheel.eaglechase5k.com (also https://mrpiercey.github.io/eaglechase-wheel/)
 
 A rigged decision wheel for the Ashland Eagle Chase 5K. A CRT TV in the corner types out a question like "Should I register for the Ashland Eagle Chase 5K?", you pull the lever, and a giant Price-Is-Right-style drum of YES / NO panels rolls past you, ticking as each panel goes by, and stops on YES. Every time. A pop-up then sends you to [eaglechase5k.com](https://eaglechase5k.com) to register.
 
